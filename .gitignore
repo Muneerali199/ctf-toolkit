@@ -1,0 +1,6 @@
+*.pyc
+__pycache__/
+cookies.txt
+*.txt
+.env
+.DS_Store
