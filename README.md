@@ -89,7 +89,40 @@ python3 crypto_tool.py --xor 475e54587463714c4f074568554542430451074554046806446
 python3 master_solver.py --module target_file_or_url
 ```
 
-*(Run any script with `--help` for more detailed usage instructions specific to that tool).*
+## 🧠 How It Works
+
+The toolkit leverages **modular scripts** connected through advanced Python heuristics to solve CTF categories organically:
+- **Argon2 Cracker (`argon`):** Uses an aggressive multi-tiered logic system (Instant → Smart Pattern → Rockyou → Brute Force). It handles corrupt `argon2-cffi` 16-byte hashes natively by directly recalculating and diffing hashes using the low-level `hash_secret` API and auto-delegates to **Hashcat** when possible.
+- **Master Auto-Solver (`auto`):** Determines the file type via magic byte parsing. It cascades the file through standard steganography boundaries (LSB mapping, hex dumping, text extraction) while aggressively regex-scraping `picoCTF{...}` & `CTF{...}` tokens across ROT13, Base64, and Hex decoding wrappers.
+- **OSINT Toolkit (`osint`):** Combines standard `whois` queries with silent API scrapes against GitHub, Reddit, Instagram, Wayback Machine, and HaveIBeenPwned. It maps Reverse DNS and exact cloud-hosting IP locations without ever tripping standard HTTP web-alarm filters.
+- **Web & Scanner (`web`/`owasp`):** Identifies headers, executes simple XSS and boolean-based SQL injection, and hunts for leaked environment parameters and flags hiding natively in the HTTP source body.
+
+## ⚡ Single Command Execution (Unified CLI)
+
+We have engineered a global `./ctf` wrapper script so you never need to remember individual python files or parameters. **One command rules them all.**
+
+```bash
+# 1. Make the wrapper executable (First time only)
+chmod +x ctf
+
+# 2. Run the wrapper to see the beautiful hacker UI & available tools
+./ctf
+```
+
+### Examples using the Unified Wrapper:
+```bash
+# Auto-Solve a mysterious file or URL
+./ctf auto --module unknown_challenge.jpg
+
+# Track down a user using OSINT
+./ctf osint --username Owoodflint
+
+# Crack an Argon2 hash using the dedicated cracker
+./ctf argon --hashfile hash.txt
+
+# Run Web Enumeration
+./ctf web --url http://target.url --mode all
+```
 
 ## ⚖️ Legal Disclaimer
 **For Educational and CTF Use Only.** This toolkit is designed strictly for use in authorized Capture The Flag (CTF) competitions, educational environments (like TryHackMe, HackTheBox, picoCTF, DVWA), and on systems you explicitly own or have permission to test. The author is not responsible for any misuse or damage caused by these tools.

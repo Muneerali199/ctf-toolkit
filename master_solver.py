@@ -18,7 +18,7 @@ report_data = defaultdict(list)
 
 def log_result(tech, result, conf=100):
     report_data[tech].append({"result": result, "confidence": conf})
-    print(f"[+] {tech} (Conf: {conf}%): {result}")
+    print(f"\033[1;32m[+]\033[0m {tech} (Conf: {conf}%): {result}")
 
 def detect_input_type(target):
     if target.startswith("http://") or target.startswith("https://"):
@@ -33,21 +33,21 @@ def auto_solve_web(url):
     try:
         r = requests.get(url, timeout=5)
         # 1. SQLi test
-        print("[*] Testing basic SQLi...")
+        print("\033[1;36m[*]\033[0m Testing basic SQLi...")
         sqli_payload = "'"
         r_sqli = requests.get(f"{url}?id={sqli_payload}", timeout=5)
         if "sql" in r_sqli.text.lower() or "syntax" in r_sqli.text.lower():
             log_result("SQLi Check", f"Vulnerable parameter found at {url}?id={sqli_payload}")
 
         # 2. XSS test
-        print("[*] Testing basic XSS...")
+        print("\033[1;36m[*]\033[0m Testing basic XSS...")
         xss_payload = "<script>alert(1)</script>"
         r_xss = requests.get(f"{url}?q={xss_payload}", timeout=5)
         if xss_payload in r_xss.text:
             log_result("XSS Check", f"Reflected XSS found at {url}?q={xss_payload}")
 
         # 3. Headers check
-        print("[*] Checking headers...")
+        print("\033[1;36m[*]\033[0m Checking headers...")
         for header, value in r.headers.items():
             if FLAG_PATTERN.search(value):
                 log_result("Header Check", f"Flag found in header {header}: {value}", 100)
@@ -58,7 +58,7 @@ def auto_solve_web(url):
             log_result("Source Code Check", f"Flag found: {match[0]}", 100)
             
     except Exception as e:
-        print(f"[-] Web Check Error: {e}")
+        print(f"\033[1;31m[-]\033[0m Web Check Error: {e}")
 
 def auto_solve_file(filepath):
     print(f"\n[*] Starting File Auto-Solve for {filepath}")
@@ -73,7 +73,7 @@ def auto_solve_file(filepath):
         elif magic == b'PK\x03\x04': log_result("Magic Bytes", "ZIP Archive detected", 90)
         
         # 2. Extract strings & find flag
-        print("[*] Extracting strings...")
+        print("\033[1;36m[*]\033[0m Extracting strings...")
         strings = ""
         for byte in data:
             char = chr(byte)
@@ -87,7 +87,7 @@ def auto_solve_file(filepath):
                 strings = ""
 
         # 3. Try Decodings
-        print("[*] Attempting basic decodings...")
+        print("\033[1;36m[*]\033[0m Attempting basic decodings...")
         text_data = data.decode(errors='ignore')
         
         # Base64
@@ -124,7 +124,7 @@ def auto_solve_file(filepath):
             except Exception: pass
 
     except Exception as e:
-        print(f"[-] File Check Error: {e}")
+        print(f"\033[1;31m[-]\033[0m File Check Error: {e}")
 
 def save_report():
     print(f"\n[*] Saving report to report.txt")
@@ -137,7 +137,7 @@ def save_report():
             for r in results:
                 f.write(f"Confidence {r['confidence']}%: {r['result']}\n")
             f.write("\n")
-    print("[+] Report saved successfully.")
+    print("\033[1;32m[+]\033[0m Report saved successfully.")
 
 if __name__ == "__main__":
     print("=== CTF Master Auto-Solver ===")
@@ -154,6 +154,6 @@ if __name__ == "__main__":
     elif target_type == "file":
         auto_solve_file(target)
     else:
-        print(f"[-] Unknown target format: {target}")
+        print(f"\033[1;31m[-]\033[0m Unknown target format: {target}")
         
     save_report()

@@ -1,0 +1,45 @@
+#!/bin/bash
+# CTF Toolkit Unified CLI Wrapper
+
+if [ "$#" -lt 1 ]; then
+    echo -e "\033[1;35m    ___                    ____   ____                _             \033[0m"
+    echo -e "\033[1;35m   /   |  _________ ___  __|_  | / __ \_____________ | | __ _____   \033[0m"
+    echo -e "\033[1;35m  / /| | / ___/ __ \`__ \/ /_/ / / / / / ___/ __ \`__\| |/ // ___/  \033[0m"
+    echo -e "\033[1;35m / ___ |/ /  / / / / / /\__, / / /_/ / /__/ / / / / |   <\__ \    \033[0m"
+    echo -e "\033[1;35m/_/  |_/_/  /_/ /_/ /_//____/  \____/\___/_/ /_/ /_/|_|\_\____/   \033[0m"
+    echo -e "\033[1;36m                 CTF Toolkit Unified CLI | By Muneer Ali\033[0m"
+    echo ""
+    echo -e "\033[1;33mUsage: ./ctf <tool> [arguments]\033[0m"
+    echo ""
+    echo -e "\033[1;32mAvailable Tools:\033[0m"
+    echo -e "  \033[1;36mauto\033[0m      -> Auto-solves files/urls   (master_solver.py)"
+    echo -e "  \033[1;36margon\033[0m     -> Argon2 Hash Cracker      (argon2_cracker.py)"
+    echo -e "  \033[1;36mcrypto\033[0m    -> Cryptography utilities   (crypto_tool.py)"
+    echo -e "  \033[1;36mforensics\033[0m -> File forensics & Steg    (forensics_tool.py)"
+    echo -e "  \033[1;36mosint\033[0m     -> Open Source Intelligence (osint_tool.py)"
+    echo -e "  \033[1;36mpassword\033[0m  -> Wordlist / Brute forcing (password_tool.py)"
+    echo -e "  \033[1;36mweb\033[0m       -> Web Exploitation         (web_tool.py)"
+    echo -e "  \033[1;36mowasp\033[0m     -> OWASP Vulnerability Scan (owasp_scanner.py)"
+    echo -e "  \033[1;36mhijack\033[0m    -> Session Hijacking        (ctf_session_hijack.py)"
+    echo ""
+    echo -e "\033[1;33mExample:\033[0m"
+    echo "  ./ctf osint --domain flaws.cloud"
+    echo "  ./ctf auto --module hard_challenge.jpg"
+    exit 1
+fi
+
+TOOL=$1
+shift
+
+case $TOOL in
+    auto) python3 master_solver.py "$@" ;;
+    argon) python3 argon2_cracker.py "$@" ;;
+    crypto) python3 crypto_tool.py "$@" ;;
+    forensics) python3 forensics_tool.py "$@" ;;
+    osint) python3 osint_tool.py "$@" ;;
+    password) python3 password_tool.py "$@" ;;
+    web) python3 web_tool.py "$@" ;;
+    owasp) python3 owasp_scanner.py "$@" ;;
+    hijack) python3 ctf_session_hijack.py "$@" ;;
+    *) echo -e "\033[1;31m[-] Unknown tool: $TOOL\033[0m"; exit 1 ;;
+esac

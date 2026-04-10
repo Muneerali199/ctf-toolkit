@@ -20,17 +20,17 @@ def identify_file(filepath):
         with open(filepath, 'rb') as f:
             magic = f.read(4)
             if magic == b'\xff\xd8\xff\xe0':
-                print("[+] Type: JPEG Image")
+                print("\033[1;32m[+]\033[0m Type: JPEG Image")
             elif magic == b'\x89\x50\x4e\x47':
-                print("[+] Type: PNG Image")
+                print("\033[1;32m[+]\033[0m Type: PNG Image")
             elif magic == b'PK\x03\x04':
-                print("[+] Type: ZIP Archive")
+                print("\033[1;32m[+]\033[0m Type: ZIP Archive")
             elif magic == b'%PDF':
-                print("[+] Type: PDF Document")
+                print("\033[1;32m[+]\033[0m Type: PDF Document")
             else:
-                print(f"[-] Unknown Magic Bytes: {magic.hex()}")
+                print(f"\033[1;31m[-]\033[0m Unknown Magic Bytes: {magic.hex()}")
     except Exception as e:
-        print(f"[-] Error: {e}")
+        print(f"\033[1;31m[-]\033[0m Error: {e}")
 
 # 2. Metadata extractor
 def extract_metadata(filepath):
@@ -42,9 +42,9 @@ def extract_metadata(filepath):
                 for tag, value in tags.items():
                     print(f"  {tag}: {value}")
             else:
-                print("[-] No EXIF metadata found.")
+                print("\033[1;31m[-]\033[0m No EXIF metadata found.")
     except Exception as e:
-        print(f"[-] Error: {e}")
+        print(f"\033[1;31m[-]\033[0m Error: {e}")
 
 # 3. Strings extractor
 def extract_strings(filepath):
@@ -63,10 +63,10 @@ def extract_strings(filepath):
                         matches = flag_pattern.findall(strings)
                         if matches:
                             for match in matches:
-                                print(f"[+++] FLAG FOUND: {match}")
+                                print(f"\033[1;32m[+++]\033[0m FLAG FOUND: {match}")
                     strings = ""
     except Exception as e:
-        print(f"[-] Error: {e}")
+        print(f"\033[1;31m[-]\033[0m Error: {e}")
 
 # 4. LSB steganography detector
 def check_lsb(filepath):
@@ -91,9 +91,9 @@ def check_lsb(filepath):
                 char = chr(int(''.join(map(str, b)), 2))
                 if char in string.printable:
                     msg += char
-        print(f"[+] LSB Message start: {msg[:100]}...")
+        print(f"\033[1;32m[+]\033[0m LSB Message start: {msg[:100]}...")
     except Exception as e:
-        print(f"[-] Error (Maybe not an image?): {e}")
+        print(f"\033[1;31m[-]\033[0m Error (Maybe not an image?): {e}")
 
 # 5. ZIP brute forcer
 def zip_bruteforce(filepath, wordlist):
@@ -105,13 +105,13 @@ def zip_bruteforce(filepath, wordlist):
                 pwd = line.strip().encode('utf-8')
                 try:
                     zip_file.extractall(pwd=pwd)
-                    print(f"[+++] Found Password: {pwd.decode()}")
+                    print(f"\033[1;32m[+++]\033[0m Found Password: {pwd.decode()}")
                     return
                 except (RuntimeError, zipfile.BadZipFile):
                     pass
-        print("[-] Password not found in wordlist.")
+        print("\033[1;31m[-]\033[0m Password not found in wordlist.")
     except Exception as e:
-        print(f"[-] Error: {e}")
+        print(f"\033[1;31m[-]\033[0m Error: {e}")
 
 # 6. Hex dump viewer
 def hexdump(filepath, length=256):
@@ -125,7 +125,7 @@ def hexdump(filepath, length=256):
                 ascii_str = ''.join(chr(b) if 32 <= b <= 126 else '.' for b in chunk)
                 print(f"{i:08x}  {hex_str:<48}  |{ascii_str}|")
     except Exception as e:
-        print(f"[-] Error: {e}")
+        print(f"\033[1;31m[-]\033[0m Error: {e}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CTF Forensics Toolkit")

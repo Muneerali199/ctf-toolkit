@@ -11,15 +11,15 @@ def identify_hash(h):
     print(f"\n[*] Identifying Hash: {h}")
     length = len(h)
     if length == 32:
-        print("[+] Possible Type: MD5 (or NTLM, MD4)")
+        print("\033[1;32m[+]\033[0m Possible Type: MD5 (or NTLM, MD4)")
     elif length == 40:
-        print("[+] Possible Type: SHA-1")
+        print("\033[1;32m[+]\033[0m Possible Type: SHA-1")
     elif length == 64:
-        print("[+] Possible Type: SHA-256")
+        print("\033[1;32m[+]\033[0m Possible Type: SHA-256")
     elif h.startswith("$2a$") or h.startswith("$2b$"):
-        print("[+] Possible Type: bcrypt")
+        print("\033[1;32m[+]\033[0m Possible Type: bcrypt")
     else:
-        print("[-] Unknown hash type or format.")
+        print("\033[1;31m[-]\033[0m Unknown hash type or format.")
 
 # 2. Hash cracker
 def crack_hash(target_hash, wordlist_path):
@@ -32,11 +32,11 @@ def crack_hash(target_hash, wordlist_path):
                 h = hashlib.new(algo)
                 h.update(word.encode())
                 if h.hexdigest() == target_hash:
-                    print(f"[+++] Found password: {word} (Algo: {algo})")
+                    print(f"\033[1;32m[+++]\033[0m Found password: {word} (Algo: {algo})")
                     return word
-        print("[-] Password not found in wordlist.")
+        print("\033[1;31m[-]\033[0m Password not found in wordlist.")
     except Exception as e:
-        print(f"[-] Error: {e}")
+        print(f"\033[1;31m[-]\033[0m Error: {e}")
 
 # 3. Caesar cipher brute force
 def caesar_brute(ciphertext):
@@ -55,15 +55,15 @@ def caesar_brute(ciphertext):
 def decode_common(data):
     print("\n[*] Common Decodings:")
     rot13 = ''.join(chr((ord(c) - 97 + 13) % 26 + 97) if c.islower() else (chr((ord(c) - 65 + 13) % 26 + 65) if c.isupper() else c) for c in data)
-    print(f"[+] ROT13: {rot13}")
+    print(f"\033[1;32m[+]\033[0m ROT13: {rot13}")
     try:
         b64 = base64.b64decode(data).decode('utf-8')
-        print(f"[+] Base64: {b64}")
+        print(f"\033[1;32m[+]\033[0m Base64: {b64}")
     except:
         pass
     try:
         b32 = base64.b32decode(data).decode('utf-8')
-        print(f"[+] Base32: {b32}")
+        print(f"\033[1;32m[+]\033[0m Base32: {b32}")
     except:
         pass
 
@@ -77,7 +77,7 @@ def xor_brute(ciphertext_hex):
             if all(32 <= b <= 126 for b in decoded):
                 print(f"Key 0x{key:02x}: {decoded.decode('ascii', errors='ignore')}")
     except Exception as e:
-        print(f"[-] Error in XOR brute: {e}")
+        print(f"\033[1;31m[-]\033[0m Error in XOR brute: {e}")
 
 # 6. Frequency Analysis
 def frequency_analysis(text):
@@ -102,7 +102,7 @@ def vigenere_decrypt(ciphertext, key):
             key_idx += 1
         else:
             plaintext += char
-    print(f"[+] Result: {plaintext}")
+    print(f"\033[1;32m[+]\033[0m Result: {plaintext}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="CTF Cryptography Toolkit")
@@ -130,7 +130,7 @@ if __name__ == "__main__":
         identify_hash(args.identify)
     elif args.crack:
         if not args.wordlist:
-            print("[-] Error: --crack requires --wordlist")
+            print("\033[1;31m[-]\033[0m Error: --crack requires --wordlist")
         else:
             crack_hash(args.crack, args.wordlist)
     elif args.caesar:
