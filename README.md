@@ -12,14 +12,14 @@ A comprehensive collection of powerful CTF (Capture The Flag) scripts and automa
 | Script Name | Purpose | Example Command |
 | --- | --- | --- |
 | 🔑 **`argon2_cracker.py`** | Highly-optimized auto Argon2id/i/d hash cracker supporting manual 16-byte fallback, Hashcat integration, and multi-phased smart dictionary attacks. | `python3 argon2_cracker.py --hashfile hash.txt` |
-| 🕵️‍♂️ **`owasp_scanner.py`** | Scans for top OWASP vulnerabilities (SQLi, XSS, etc.) | `python3 owasp_scanner.py --target http://url` |
-| 🍪 **`ctf_session_hijack.py`** | Tests session hijacking and cookie forging | `python3 ctf_session_hijack.py --url http://url --cookie "session=123"` |
-| 🌐 **`web_tool.py`** | Web exploitation, directory busting, and enumeration | `python3 web_tool.py --help` |
-| 🔐 **`crypto_tool.py`** | Advanced Cryptography, hash identification, and decoding utilities | `python3 crypto_tool.py --help` |
+| 🕵️‍♂️ **`owasp_scanner.py`** | Scans for top OWASP vulnerabilities (SQLi, XSS, etc.) | `python3 owasp_scanner.py --url http://target.url` |
+| 🍪 **`ctf_session_hijack.py`** | Tests session hijacking and cookie forging | `python3 ctf_session_hijack.py --url http://target.url` |
+| 🌐 **`web_tool.py`** | Web exploitation, directory busting, and enumeration | `python3 web_tool.py --url http://target.url --mode all` |
+| 🔐 **`crypto_tool.py`** | Advanced Cryptography, hash identification, and decoding utilities | `python3 crypto_tool.py --identify 5d41402abc4b2a76b9719d911017c592` |
 | 📂 **`forensics_tool.py`** | File forensics, steganography analysis, and metadata extraction | `python3 forensics_tool.py --file image.png` |
 | 🔍 **`osint_tool.py`** | Open-source intelligence gathering and reconnaissance | `python3 osint_tool.py --domain example.com` |
-| 🔓 **`password_tool.py`** | Password cracking, mutation generation, and brute forcing | `python3 password_tool.py --hash <HASH>` |
-| 🤖 **`master_solver.py`** | Automated solver mapping across common CTF challenges | `python3 master_solver.py --module <MODULE>` |
+| 🔓 **`password_tool.py`** | Password cracking, mutation generation, and brute forcing | `python3 password_tool.py --mode hash --target <HASH>` |
+| 🤖 **`master_solver.py`** | Automated solver mapping across common CTF challenges | `python3 master_solver.py --module <FILE_OR_URL>` |
 
 ## 📦 Requirements
 - **Python 3.9+**
@@ -46,21 +46,32 @@ python3 argon2_cracker.py --hashfile hash.txt
 
 **OWASP Vulnerability Scanner:**
 ```bash
-python3 owasp_scanner.py --target http://example.com/
+python3 owasp_scanner.py --url http://example.com/
 ```
 
 **Automated Session Hijacker:**
 ```bash
-python3 ctf_session_hijack.py --url http://target.thm/admin --cookie "session=12345"
+python3 ctf_session_hijack.py --url http://target.thm/admin --token "session=12345"
+```
+
+**Cryptography Swiss Army Knife:**
+```bash
+python3 crypto_tool.py --demo
+python3 crypto_tool.py --decode "SGVsbG8="
+```
+
+**OSINT Domain Recon:**
+```bash
+python3 osint_tool.py --domain google.com
 ```
 
 *(Run any script with `--help` for more detailed usage instructions specific to that tool).*
 
-## Legal Disclaimer
+## ⚖️ Legal Disclaimer
 **For Educational and CTF Use Only.** This toolkit is designed strictly for use in authorized Capture The Flag (CTF) competitions, educational environments (like TryHackMe, HackTheBox, picoCTF, DVWA), and on systems you explicitly own or have permission to test. The author is not responsible for any misuse or damage caused by these tools.
 
-## Author
+## 👨‍💻 Author
 **Muneer Ali** - MCA Student, CTF Learner, and Open Source Developer.
 
-## License
+## 📜 License
 MIT License

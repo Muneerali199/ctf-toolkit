@@ -1,9 +1,13 @@
+
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='urllib3')
 import requests
 import re
 import base64
 import os
 import binascii
 import sys
+import argparse
 import codecs
 from collections import defaultdict
 
@@ -138,11 +142,11 @@ def save_report():
 if __name__ == "__main__":
     print("=== CTF Master Auto-Solver ===")
     
-    if len(sys.argv) < 2:
-        print("Usage: python master_solver.py <url_or_filepath>")
-        sys.exit(1)
         
-    target = sys.argv[1]
+    parser = argparse.ArgumentParser(description="CTF Master Auto-Solver")
+    parser.add_argument("--module", help="Target URL or Filepath", required=True)
+    args = parser.parse_args()
+    target = args.module
     target_type = detect_input_type(target)
     
     if target_type == "web":

@@ -1,3 +1,6 @@
+
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='urllib3')
 import requests
 import argparse
 from colorama import init, Fore, Style

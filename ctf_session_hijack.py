@@ -1,3 +1,6 @@
+
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='urllib3')
 #!/usr/bin/env python3
 """
 CTF Session Hijacker - Auto Flag Grabber

@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='urllib3')
 import requests
 import whois
 import socket
@@ -41,8 +43,6 @@ def check_email(email):
     url = f"https://haveibeenpwned.com/api/v3/breachedaccount/{email}"
     headers = {
         "User-Agent": "CTF-OSINT-Toolkit",
-        # HIBP requires an API key, but for CTF simulation we'll print a message
-        # "hibp-api-key": "YOUR_API_KEY"
     }
     print("[!] HIBP API requires a key. Simulating request...")
     try:
@@ -140,16 +140,31 @@ def scrape_metadata(url):
         print(f"[-] Scrape Error: {e}")
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CTF OSINT Toolkit")
+    parser.add_argument("--domain", help="Target domain (e.g. example.com)")
+    parser.add_argument("--username", help="Check username across platforms")
+    parser.add_argument("--email", help="Check email against breaches")
+    parser.add_argument("--ip", help="Check IP info")
+    
+    args = parser.parse_args()
     print("=== CTF OSINT Toolkit ===")
-    import sys
-    if len(sys.argv) > 1:
-        target = sys.argv[1]
-        check_username(target.split('.')[0]) # roughly guess username from domain
-        check_email(f"admin@{target}")
-        get_whois(target)
-        ip_info(target)
-        generate_dorks(target)
-        wayback_urls(target)
-        scrape_metadata(f"http://{target}")
-    else:
-        print("Usage: python osint_tool.py <target_domain_or_ip>")
+    
+    if args.domain:
+        get_whois(args.domain)
+        ip_info(args.domain)
+        generate_dorks(args.domain)
+        wayback_urls(args.domain)
+        scrape_metadata(f"http://{args.domain}")
+        check_username(args.domain.split('.')[0])
+    
+    if args.username:
+        check_username(args.username)
+        
+    if args.email:
+        check_email(args.email)
+        
+    if args.ip:
+        ip_info(args.ip)
+        
+    if not (args.domain or args.username or args.email or args.ip):
+        parser.print_help()

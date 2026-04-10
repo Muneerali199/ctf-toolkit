@@ -1,3 +1,6 @@
+
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='urllib3')
 import hashlib
 import requests
 import paramiko

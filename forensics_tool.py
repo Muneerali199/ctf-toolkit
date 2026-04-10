@@ -1,8 +1,11 @@
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning, module='urllib3')
 import os
 import struct
 import zipfile
 import string
 import re
+import argparse
 try:
     from PIL import Image
     import exifread
@@ -61,7 +64,6 @@ def extract_strings(filepath):
                         if matches:
                             for match in matches:
                                 print(f"[+++] FLAG FOUND: {match}")
-                        # print(strings) # Uncomment to see all strings
                     strings = ""
     except Exception as e:
         print(f"[-] Error: {e}")
@@ -126,14 +128,18 @@ def hexdump(filepath, length=256):
         print(f"[-] Error: {e}")
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CTF Forensics Toolkit")
+    parser.add_argument("--file", help="Target file for forensics analysis", required=True)
+    parser.add_argument("--zipbrute", help="Wordlist to brute force ZIP password")
+    
+    args = parser.parse_args()
+    
     print("=== CTF Forensics Toolkit ===")
-    import sys
-    if len(sys.argv) > 1:
-        target = sys.argv[1]
-        identify_file(target)
-        extract_metadata(target)
-        extract_strings(target)
-        check_lsb(target)
-        hexdump(target)
-    else:
-        print("Usage: python forensics_tool.py <target_file>")
+    identify_file(args.file)
+    extract_metadata(args.file)
+    extract_strings(args.file)
+    check_lsb(args.file)
+    hexdump(args.file)
+    
+    if args.zipbrute:
+        zip_bruteforce(args.file, args.zipbrute)
