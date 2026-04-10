@@ -44,25 +44,26 @@ EOF
 python3 argon2_cracker.py --hashfile hash.txt
 ```
 
+**OSINT Domain Recon (AWS CTF Challenge / flAWS.cloud):**
+```bash
+# Automatically extracts WHOIS, Reverse DNS, AWS Region, and Metadata
+python3 osint_tool.py --domain flaws.cloud
+
+# Output automatically reveals the hidden AWS S3 bucket and Region:
+# [+] IP: 3.5.86.66
+# [+] Reverse DNS: s3-website.us-west-2.amazonaws.com
+# [+] Location: Boardman, Oregon, US
+```
+
+**Automated Username Recon (TryHackMe / OhSINT Challenge):**
+```bash
+# Cross-references usernames across GitHub, Twitter, Reddit, and Instagram
+python3 osint_tool.py --username Owoodflint
+```
+
 **OWASP Vulnerability Scanner:**
 ```bash
 python3 owasp_scanner.py --url http://example.com/
-```
-
-**Automated Session Hijacker:**
-```bash
-python3 ctf_session_hijack.py --url http://target.thm/admin --token "session=12345"
-```
-
-**Cryptography Swiss Army Knife:**
-```bash
-python3 crypto_tool.py --demo
-python3 crypto_tool.py --decode "SGVsbG8="
-```
-
-**OSINT Domain Recon:**
-```bash
-python3 osint_tool.py --domain google.com
 ```
 
 *(Run any script with `--help` for more detailed usage instructions specific to that tool).*
