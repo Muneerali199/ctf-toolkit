@@ -66,6 +66,29 @@ python3 osint_tool.py --username Owoodflint
 python3 owasp_scanner.py --url http://example.com/
 ```
 
+**Automated Forensics & Magic Byte Recovery:**
+```bash
+# Challenge: Corrupted JPEG with hidden flag
+# Action: Runs Strings extraction, EXIF metadata, Hex dump, and LSB Steg checks
+python3 forensics_tool.py --file hard_challenge.jpg
+# [+++] FLAG FOUND: picoCTF{m4g1c_byt3s_c4nt_h1d3_m3_8f3a1}
+```
+
+**Cryptography Swiss Army Knife (XOR Brute-Force):**
+```bash
+# Challenge: You have an unknown hex string and suspect it's XOR encrypted.
+# Action: Brute forces every single-byte XOR key and prints readable outputs.
+python3 crypto_tool.py --xor 475e54587463714c4f07456855454243045107455404680644680456444e4a
+# [+] Key 0x37: picoCTF{x0r_brut3f0rc3_1s_3asy}
+```
+
+**CTF Master Auto-Solver:**
+```bash
+# Challenge: You don't know what the file is or what web vulnerabilities exist.
+# Action: Automatically runs every test in the toolkit and generates a report.txt
+python3 master_solver.py --module target_file_or_url
+```
+
 *(Run any script with `--help` for more detailed usage instructions specific to that tool).*
 
 ## ⚖️ Legal Disclaimer
